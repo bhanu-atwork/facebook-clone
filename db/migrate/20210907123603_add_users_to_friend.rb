@@ -1,7 +1,7 @@
 class AddUsersToFriend < ActiveRecord::Migration[6.1]
   def change
     create_table :friends do |t|
-      t.string :status
+      t.integer :status
       t.timestamps
     end
     add_reference :friends, :first_user, null: false
