@@ -4,5 +4,6 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.string :body
       t.timestamps
     end
+    add_reference :posts, :user, null: false, foreign_key: true
   end
 end
