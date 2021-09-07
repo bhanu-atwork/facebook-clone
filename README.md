@@ -1,1 +1,2 @@
-# facebook-clone
+# README
+Facebook clone for learning ROR
