@@ -54,13 +54,13 @@ ActiveRecord::Schema.define(version: 2021_09_07_124324) do
   end
 
   create_table "friends", force: :cascade do |t|
-    t.string "relation"
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
-    t.bigint "user_friend_id", null: false
-    t.index ["user_friend_id"], name: "index_friends_on_user_friend_id"
-    t.index ["user_id"], name: "index_friends_on_user_id"
+    t.bigint "first_user_id", null: false
+    t.bigint "second_user_id", null: false
+    t.index ["first_user_id"], name: "index_friends_on_first_user_id"
+    t.index ["second_user_id"], name: "index_friends_on_second_user_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -97,7 +97,8 @@ ActiveRecord::Schema.define(version: 2021_09_07_124324) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "friends", "users", column: "id"
+  add_foreign_key "friends", "users", column: "first_user_id"
+  add_foreign_key "friends", "users", column: "second_user_id"
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"
 end
