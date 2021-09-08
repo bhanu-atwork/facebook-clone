@@ -21,13 +21,14 @@ class SessionsController < ApplicationController
     redirect_to new_session_path
   end
 
-  def get_user
-    @user = User.find_by(email: session_params[:email])
-    if !@user
-      flash[:email_notice] = "Your user is not connected to facebook"
-      redirect_to new_session_path
+  private
+    def get_user
+      @user = User.find_by(email: session_params[:email])
+      if !@user
+        flash[:email_notice] = "Your user is not connected to facebook"
+        redirect_to new_session_path
+      end
     end
-  end
 
   private
     def session_params
