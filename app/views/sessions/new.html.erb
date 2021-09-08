@@ -1,0 +1,27 @@
+<div class="container">
+	<div class="row align-items-center justify-content-center vh-100">
+		<div class="col-md-7">
+			<img src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" class="w-50" />
+			<h3> Facebook helps you connect and share with the people in your life. </h3>
+		</div>
+		<div class="col-md-5">
+			<%= form_with(url: '/search', data: { behavior: "autosave" }, html: { class: "login-form"}) do |f| %>
+			<div class="mb-3">
+				<%= text_field(:login, :email, class: "form-control", placeholder: "Enter email address") %>
+			</div>
+			<div class="mb-3">
+				<%= text_field(:login, :pass, class: "form-control", placeholder: "Password") %>
+			</div>
+			<%= f.submit "Login!",  :class => 'btn btn-custom btn-lg btn-block mt-3' %>
+      <div class="text-center pt-3 pb-3">
+				<%= link_to "Forgotten password?" , "#" %>
+				<hr />
+				<%= button_to "Create New Account", { action: "create" }, { class: "btn btn-success btn-lg mt-3" } %>
+			</div>
+			<% end %>
+			<p class="pt-3 text-center">
+				<b>Create a Page</b> for a celebrity, band or business.
+			</p>
+		</div>
+	</div>
+</div>
