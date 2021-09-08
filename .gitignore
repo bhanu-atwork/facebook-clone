@@ -4,5 +4,5 @@ log/*.log
 tmp/
 .rspec
 /spec/tmp/*
-mode_modules
+node_modules/
 public/

@@ -5,12 +5,18 @@
 			<h3> Facebook helps you connect and share with the people in your life. </h3>
 		</div>
 		<div class="col-md-5">
-			<%= form_with(url: '/search', data: { behavior: "autosave" }, html: { class: "login-form"}) do |f| %>
+			<%= form_with(url: sessions_path, data: { behavior: "autosave" }, html: { class: "login-form"}) do |f| %>
 			<div class="mb-3">
-				<%= text_field(:login, :email, class: "form-control", placeholder: "Enter email address") %>
+				<%= text_field("", :email, class: "form-control", placeholder: "Enter email address") %>
+        <% if flash[:email_notice] %>
+        <%= content_tag :h7, flash[:email_notice] %>
+        <% end %>
 			</div>
 			<div class="mb-3">
-				<%= text_field(:login, :pass, class: "form-control", placeholder: "Password") %>
+				<%= password_field("", :password, class: "form-control", placeholder: "Password") %>
+        <% if flash[:password_notice] %>
+        <%= content_tag :h7, flash[:password_notice] %>
+        <% end %>
 			</div>
 			<%= f.submit "Login!",  :class => 'btn btn-custom btn-lg btn-block mt-3' %>
       <div class="text-center pt-3 pb-3">
