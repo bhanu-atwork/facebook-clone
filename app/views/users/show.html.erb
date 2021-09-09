@@ -1,2 +1,237 @@
-<h1>Profile</h1>
+<div class="content">
+    <div class="content_left">
+      <ul>
+        <li>
+          <a href="#">
+            <%= image_tag "profile.png", alt:"profile" %>
+            <span>Bhanu</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "covid.png", alt:"covid" %>
+            <span>COVID-19 Information Center</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "friends.png", alt:"friends" %>
+            <span>Friends</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "groups.png", alt:"groups" %> <span>Groups</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "marketplace.png", alt:"marketplace" %>
+            <span>Marketplace</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "videos.png", alt:"videos" %> <span>Videos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "events.png", alt:"events" %> <span>Events</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "memories.png", alt:"memories" %>
+            <span>Memories</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "saved.png", alt:"saved" %> <span>Saved</span>
+          </a>
+        </li>
+
+        <li>
+          <i class="fas fa-arrow-down"></i>
+          <span class="see_more">See More</span>
+        </li>
+        <div class="border"></div>
+        <h3 class="shortcut_title">Your shortcuts</h3>
+        <div class="shortcuts_wrapper">
+          <a href="#">
+            <%= image_tag "shortcuts.jpg", alt:"shortcuts" %>
+            <span>Ethical Hacking Society</span>
+          </a>
+        </div>
+      </ul>
+    </div>
+
+    <div class="content_center">
+      <div class="stories">
+        <%= image_tag "https://picsum.photos/id/137/110/200", alt:"" %>
+        <%= image_tag "https://picsum.photos/id/247/110/200", alt:"" %>
+        <%= image_tag "https://picsum.photos/id/522/110/200", alt:"" %>
+        <%= image_tag "https://picsum.photos/id/231/110/200", alt:"" %>
+        <%= image_tag "https://picsum.photos/id/537/110/200", alt:"" %>
+        <%= image_tag "https://picsum.photos/id/237/110/200", alt:"" %>
+        </div>
+        <div class="media_container">
+          <div class="share">
+            <div class="share_upSide">
+              <%= image_tag "profile.png", alt:"profile" %>
+              <%= text_field("", :body, placeholder:"What's on your mind, Bhanu?") %>
+            </div>
+              <hr />
+              <div class="share_downSide">
+                <div class="share_downSide_link">
+                  <i class="fas fa-video live-video-icon"></i>
+                  <span>Live Video</span>
+                </div>
+                <div class="share_downSide_link">
+                  <i class="fas fa-photo-video photo-video-icon"></i>
+                  <span>Photo/Video</span>
+                </div>
+                <div class="share_downSide_link">
+                  <i class="far fa-grin-alt feeling-icon"></i>
+                  <span>Feeling/Activity</span>
+                </div>
+              </div>
+            </div>
+            <!-- news feed -->
+            <div class="news_feed">
+              <div class="news_feed_title">
+                <%= image_tag "user.png", alt:"user" %>
+                <div class="news_feed_title_content">
+                  <p>Codersbite Magazine</p>
+                  <span>12h . <i class="fas fa-globe-americas"></i></span>
+                </div>
+              </div>
+              <div class="news_feed_description">
+                <p class="news_feed_subtitle">
+                  Lets learn Ruby on Rails !!
+                </p>
+                <%= image_tag "ror.png", alt:"ror" %>
+                <div class="news_feed_description_title">
+                  <span>YOUTUBE / CODERSBITE</span>
+                  <p>
+                  </p>
+                </div>
+              </div>
+
+              <div class="likes_area">
+                <div class="emojis">
+                  <%= image_tag "emoji_like.png", alt:"like" %>
+                  <%= image_tag "emoji_surprised.png", alt:"surprised" %>
+                  <%= image_tag "emoji_angry.png", alt:"angry" %>
+                  <span>25</span>
+                </div>
+                <div class="comment_counts">
+                  <span>4 Comments</span>
+                  <span>13 Shares</span>
+                </div>
+              </div>
+
+              <div class="divider">
+                <hr />
+              </div>
+              <div class="likes_buttons">
+                <div class="likes_buttons_links">
+                  <i class="far fa-thumbs-up"></i>
+                  <span>Like</span>
+                </div>
+                <div class="likes_buttons_links">
+                  <i class="far fa-comment-alt"></i>
+                  <span>Comment</span>
+                </div>
+                <div class="likes_buttons_links">
+                  <i class="fas fa-share"></i>
+                  <span>Share</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content_right">
+          <div class="content_right_inner">
+            <div class="your_pages">
+              <h3>Your Pages</h3>
+              <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <ul>
+              <li>
+                <a href="#">
+                  <%= image_tag "codersbite.png", class:"your_page_logo",  alt:"codersbite" %>
+                  <span>Codersbite</span>
+                </a>
+              </li>
+              <li class="content_right_small_text">
+                <a href="#">
+                  <i class="fas fa-bell"></i>
+                  <span>5 Notifications</span>
+                </a>
+              </li>
+              <li class="content_right_small_text">
+                <a href="#">
+                  <i class="fas fa-bullhorn"></i>
+                  <span>Create Promotion</span>
+                </a>
+              </li>
+            </ul>
+            <div class="content_right_divider"></div>
+            <div class="birthdays">
+              <h3>Birthdays</h3>
+            </div>
+            <ul>
+              <li>
+                <a href="#">
+                  <image_tag "gift-box.png", alt:"gift-box" %>
+                  <span>Amit's birthday is today</span>
+                </a>
+              </li>
+            </ul>
+            <div class="content_right_divider"></div>
+            <div class="contacts">
+              <h3>Contacts</h3>
+              <div class="contact_icons">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-ellipsis-h"></i>
+              </div>
+            </div>
+            <ul>
+              <li>
+                <a href="#">
+                  <%= image_tag "avatar1.png", alt:"user" %>
+                  <span>Virat</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <%=image_tag "avatar2.png", alt:"user" %>
+                  <span>Dhoni</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <%=image_tag "avatar1.png", alt:"user" %>
+                  <span>Rohit</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <%=image_tag "avatar3.png", alt:"user" %>
+                  <span>Bumrah</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <%=image_tag "avatar2.png", alt:"user" %>
+                  <span>Shami</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
 <%= link_to "Sign out", session_path, method:"delete" %>
