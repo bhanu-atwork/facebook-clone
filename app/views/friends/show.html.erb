@@ -1,0 +1,68 @@
+<div class="content">
+    <div class="content_left">
+      <ul>
+        <li>
+          <a href="#">
+            <%= content_tag(:span , "Friends", style: "font-weight:bold; font-size: 150%") %>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "covid.png", alt:"covid" %>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "friends.png", alt:"friends" %>
+            <span>Friend requests</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "groups.png", alt:"groups" %> <span>Groups</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "marketplace.png", alt:"marketplace" %>
+            <span>Suggestions</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "videos.png", alt:"videos" %> <span>All Friends</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "events.png", alt:"events" %> <span>Birthdays</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <%= image_tag "memories.png", alt:"memories" %>
+            <span>Custom Lists</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <%= @friend_requests.each do |request| %>
+    <div class="card" style="width: 18rem;">
+    <%= image_tag "videos.png", alt:"videos" %>
+  <div class="card-body">
+    <h5 class="card-title">Prakash Kumar</h5>
+    <%= button_to "Confirm", friends_path, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+    <%= button_to "Reject", friends_path, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
+  </div>
+</div>
+<% end %>
+<div class="card" style="width: 18rem;">
+<%= image_tag "videos.png", alt:"videos" %>
+<div class="card-body">
+<h5 class="card-title">Prakash Kumar</h5>
+<%= button_to "Add Friend", new_friend_path(:friend_id => 2), {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+<%= button_to "Remove", friends_path, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
+</div>
+</div>

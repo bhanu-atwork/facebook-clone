@@ -4,7 +4,7 @@
         <li>
           <a href="#">
             <%= image_tag "profile.png", alt:"profile" %>
-            <span>Bhanu</span>
+            <%= content_tag(:span, "#{@current_user.first_name}") %>
           </a>
         </li>
         <li>
@@ -80,17 +80,19 @@
           <div class="share">
             <div class="share_upSide">
               <%= image_tag "profile.png", alt:"profile" %>
-              <%= text_field("", :body, placeholder:"What's on your mind, Bhanu?") %>
+              <%= text_field("", :body, placeholder:"What's on your mind, #{@current_user.first_name}?") %>
+            end  
             </div>
+
               <hr />
               <div class="share_downSide">
                 <div class="share_downSide_link">
                   <i class="fas fa-video live-video-icon"></i>
                   <span>Live Video</span>
                 </div>
-                <div class="share_downSide_link">
+                <div class="share_downSide_link type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"">
                   <i class="fas fa-photo-video photo-video-icon"></i>
-                  <span>Photo/Video</span>
+                  <span>Photo</span>
                 </div>
                 <div class="share_downSide_link">
                   <i class="far fa-grin-alt feeling-icon"></i>
@@ -99,57 +101,49 @@
               </div>
             </div>
             <!-- news feed -->
-            <div class="news_feed">
-              <div class="news_feed_title">
-                <%= image_tag "user.png", alt:"user" %>
-                <div class="news_feed_title_content">
-                  <p>Codersbite Magazine</p>
+            <%= @current_users_posts.each do |post| %>
+              <div class="news_feed">
+                <div class="news_feed_title">
+                  <%= image_tag "user.png", alt:"user" %>
+                  <div class="news_feed_title_content">
+                  <%= content_tag(:p, "#{@current_user.first_name} #{@current_user.last_name}") %>
                   <span>12h . <i class="fas fa-globe-americas"></i></span>
+                  </div>
                 </div>
-              </div>
-              <div class="news_feed_description">
-                <p class="news_feed_subtitle">
-                  Lets learn Ruby on Rails !!
-                </p>
-                <%= image_tag "ror.png", alt:"ror" %>
-                <div class="news_feed_description_title">
-                  <span>YOUTUBE / CODERSBITE</span>
-                  <p>
-                  </p>
+                <div class="news_feed_description">
+                <%= content_tag(:p, "#{post.body}", class: "news_feed_subtitle") %>
+                <% if post.image.attached? %>
+                  <%= image_tag post.image %>
+                <% end %>
                 </div>
-              </div>
 
-              <div class="likes_area">
-                <div class="emojis">
-                  <%= image_tag "emoji_like.png", alt:"like" %>
-                  <%= image_tag "emoji_surprised.png", alt:"surprised" %>
-                  <%= image_tag "emoji_angry.png", alt:"angry" %>
-                  <span>25</span>
+                <div class="likes_area">
+                  <div class="emojis">
+                    <%= image_tag "emoji_like.png", alt:"like" %>
+                    <%= content_tag(:span, "#{count_post_likes(post.id)}") %>
+                  </div>
+                  <div class="comment_counts">
+                  <%= content_tag(:span, "#{count_post_comments(post.id)}") %>
+                  </div>
                 </div>
-                <div class="comment_counts">
-                  <span>4 Comments</span>
-                  <span>13 Shares</span>
-                </div>
-              </div>
 
-              <div class="divider">
-                <hr />
+                <div class="divider">
+                  <hr />
+                </div>
+                <div class="likes_buttons">
+                  <div class="likes_buttons_links">
+                  <%= link_to "", like_path(:type =>"Post", :id => post.id), {class: "far fa-thumbs-up", method: :put} %> 
+                  </div>
+                  <div class="likes_buttons_links">
+                  <%= link_to "", "#", {class: "far fa-comment-alt"} %> 
+
+                  </div>
+                  <div class="likes_buttons_links">
+                  <%= link_to "", "#", {class: "fas fa-share"} %> 
+                  </div>
+                </div>
               </div>
-              <div class="likes_buttons">
-                <div class="likes_buttons_links">
-                  <i class="far fa-thumbs-up"></i>
-                  <span>Like</span>
-                </div>
-                <div class="likes_buttons_links">
-                  <i class="far fa-comment-alt"></i>
-                  <span>Comment</span>
-                </div>
-                <div class="likes_buttons_links">
-                  <i class="fas fa-share"></i>
-                  <span>Share</span>
-                </div>
-              </div>
-            </div>
+            <% end %>
           </div>
         </div>
 
@@ -234,4 +228,25 @@
           </div>
         </div>
       </div>
-<%= link_to "Sign out", session_path, method:"delete" %>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered ">
+  <div class="modal-content">
+    <div class="modal-header create-post">
+      <h5 class="modal-title post-title" id="exampleModalLabel">Create Post</h5>
+    </div>
+    <%= form_with url: posts_path do |f| %>
+    <div class="modal-body create-post">
+    <%= text_field("", :body, placeholder:"What's on your mind, #{@current_user.first_name}?", class: "btn-lg btn-block mt-3 post-text") %>
+      <div class="container photo-box">
+        <p class="add-photo">Add Photos</p>
+        <%= f.file_field :image %>
+      </div>
+    </div>
+    <div class="modal-footer create-post">
+      <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Post</button>
+    </div>
+  <% end %>
+  </div>
+</div>
+</div>      
+
