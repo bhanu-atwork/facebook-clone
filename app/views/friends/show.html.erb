@@ -48,21 +48,47 @@
       </ul>
     </div>
 
-    <%= @friend_requests.each do |request| %>
-    <div class="card" style="width: 18rem;">
-    <%= image_tag "videos.png", alt:"videos" %>
-  <div class="card-body">
-    <h5 class="card-title">Prakash Kumar</h5>
-    <%= button_to("Confirm", {action: "create", :status => 0}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %>
-    <%= button_to("Reject", {action: "create", :status => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %> 
+    <div class="container" style="margin-top:15px">
+    <div class="row">
+      <%= @friend_requests.each do |request| %>
+        <div class="col-md-3">
+        <div class="card" style="width: 12rem;">
+        <%= image_tag "videos.png", alt:"videos" %>
+      <div class="card-body">
+        <h5 class="card-title">Prakash Kumar</h5>
+        <%= button_to("Confirm", {action: "create", :status => 0}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %>
+        <%= button_to("Reject", {action: "create", :status => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %> 
+      </div>
+      </div>
+    </div>
+    <% end %>
+    </div>
+    <div class="row">
+    <div class="col-md-3">
+      <div class="card" style="width: 12rem;">
+        <%= image_tag "videos.png", alt:"videos" , class: "card-img-top"%>
+        <div class="card-body">
+          <h5 class="card-title">Anirudh</h5>
+          <%= link_to "Add Friend", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+          <%= link_to "Remove", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+    <div class="card" style="width: 12rem;">
+      <%= image_tag "videos.png", alt:"videos", class: "card-img-top" %>
+      <div class="card-body">
+        <h5 class="card-title">Atul</h5>
+        <%= link_to "Add Friend", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+        <%= link_to "Remove", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
+      </div>
+    </div>
+    </div>
   </div>
 </div>
-<% end %>
-<div class="card" style="width: 18rem;">
-<%= image_tag "videos.png", alt:"videos" %>
-<div class="card-body">
-<h5 class="card-title">Bhanu</h5>
-<%= link_to "Add Friend", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
-<%= link_to "Remove", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
-</div>
-</div>
+
+
+
+
+
+   
