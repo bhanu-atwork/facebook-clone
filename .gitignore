@@ -7,3 +7,4 @@ tmp/
 node_modules/
 public/
 .DS_Store
+storage/
