@@ -115,7 +115,7 @@
           <div class="likes_area">
             <div class="emojis">
               <%= image_tag "emoji_like.png", alt:"like" %>
-              <%= content_tag(:span, "#{count_post_likes(post.id)}") %>
+              <%= content_tag(:span, "#{count_post_likes(post.id)}", id: "post_like_icon") %>
             </div>
             <div class="comment_counts">
               <%= content_tag(:span, "#{count_post_comments(post.id)}") %>
@@ -126,20 +126,22 @@
           </div>
           <div class="likes_buttons">
             <div class="likes_buttons_links">
-              <%= link_to "", like_path(:type =>"Post", :id => post.id), {class: "far fa-thumbs-up", method: :post} %>
+              <div class="likes_buttons_links comment_like_button" type="button">
+                <i class="far fa-thumbs-up" id="post_like" onclick="like_post(this)" type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: post.user_id).eql?(nil) ? "like" : "unlike" %>"></i>
+              </div>
             </div>
             <div class="likes_buttons_links" type="button" id="xta">
               <i class="far fa-comment-alt"></i>
             </div>
             <div class="likes_buttons_links">
-              <%= link_to "", "#", {class: "fas fa-share"} %>
+              <i class="fas fa-share"></i>
             </div>
           </div>
           <div id=1>
             <%= form_with(url: comments_path(:post_id => post.id),  id: "new_comment", class: "comment_form") do |f| %>
               <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "Enter a comment" ) %>
               <div class="likes_buttons_links comment_like_button" type="button">
-                <i class="far fa-thumbs-up"></i>
+                <i class="far fa-thumbs-up"> </i>
               </div>
             <% end %>
             <%= link_to "Click to post comment", "#" , class:"comment_post_link", :onclick=>"$('#new_comment').submit()" %>
@@ -147,7 +149,7 @@
               <%= form_with(url: "#", class: "comment_form") do |f| %>
                 <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
-                  <i class="far fa-thumbs-up" id="comment_like"></i>
+                  <i class="far fa-thumbs-up" id="comment_like" data-comment-id=<%= comment.id %> onclick="like_comment(this)" ></i>
                 </div>
               <% end %>
             <% end %>
@@ -265,13 +267,41 @@
     $("#1").toggle()
     });
     
-    $("#comment_like").click(function(id){
-    console.log("Inside");
-      $.post('http://localhost:3000/comment/' + id + '/like',
+    function like_comment(element){
+    var id = $(element).attr("data-comment-id");
+      $.post('http://localhost:3000/Comment/' + id + '/like',
         function(returnedData){
             console.log(returnedData);
       }).fail(function(){
             console.log("error");
       });
+    };
+    
+    function like_post(element){
+    var id = $(element).attr("id_value");
+    var type = $(element).attr("type");
+    var action = $(element).attr("action");
+    var post_like_count = $("#post_like_icon").text()
+    console.log(id)
+    console.log(action)
+    console.log(post_like_count)
+    if (action == "like"){
+      $.ajax({
+      url: 'http://localhost:3000/likes/',
+      type: 'POST',
+      data: {"type" : type, "id" : id},
+      success: function(result) { $("#post_like_icon").text(post_like_count+1)},
+      error: function(error){console.log(error);}
+      });
+      }
+    else if (action == "unlike"){
+    $.ajax({
+    url: 'http://localhost:3000/likes/' + id,
+    type: 'DELETE',
+    data: {"type" : type, "id" : id},
+    success: function(result) { $("#post_like_icon").text(post_like_count-1)},
+    error: function(error){console.log(error);}
     });
+    }
+    }
   </script>
