@@ -5,7 +5,7 @@ class FriendsController < ApplicationController
     @friend_requests = Friend.where(second_user_id: @current_user.id, status: 2)
   end
 
-  def new
+  def create
     @current_user = helpers.current_user
     @friend_request = Friend.new(first_user_id: @current_user.id, second_user_id: params["friend_id"], status: 2)
     if !@friend_request.save
@@ -14,10 +14,10 @@ class FriendsController < ApplicationController
     redirect_to friend_path(@current_user.id)
   end
 
-  def create
+  def update
     @current_user = helpers.current_user
-    @friend_status = Friend.new(:status => params["status"].to_i)
-    if !@friend_status.save
+    @friend = Friend.find_by(first_user_id: params["friend_id"].to_i, second_user_id: @current_user.id)
+    if !@friend.update(status: params["status"].to_i)
       flash[:errors] = @friend_status.errors.full_messages
     end
     redirect_to friend_path(@current_user.id)

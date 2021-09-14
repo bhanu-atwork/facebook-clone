@@ -8,4 +8,8 @@ module PostHelper
     Post.find(id).comments.count
   end
 
+  def get_post_comments(id)
+    Post.find(id).comments
+  end
+
 end

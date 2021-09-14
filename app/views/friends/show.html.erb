@@ -1,94 +1,87 @@
 <div class="content">
-    <div class="content_left">
-      <ul>
-        <li>
-          <a href="#">
-            <%= content_tag(:span , "Friends", style: "font-weight:bold; font-size: 150%") %>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "covid.png", alt:"covid" %>
-            <span>Home</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "friends.png", alt:"friends" %>
-            <span>Friend requests</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "groups.png", alt:"groups" %> <span>Groups</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "marketplace.png", alt:"marketplace" %>
-            <span>Suggestions</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "videos.png", alt:"videos" %> <span>All Friends</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "events.png", alt:"events" %> <span>Birthdays</span>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <%= image_tag "memories.png", alt:"memories" %>
-            <span>Custom Lists</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="container" style="margin-top:15px">
+  <div class="content_left">
+    <ul>
+      <li>
+        <a href="#">
+          <%= content_tag(:span , "Friends", style: "font-weight:bold; font-size: 150%") %>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "covid.png", alt:"covid" %>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "friends.png", alt:"friends" %>
+          <span>Friend requests</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "groups.png", alt:"groups" %> <span>Groups</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "marketplace.png", alt:"marketplace" %>
+          <span>Suggestions</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "videos.png", alt:"videos" %> <span>All Friends</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "events.png", alt:"events" %> <span>Birthdays</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "memories.png", alt:"memories" %>
+          <span>Custom Lists</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="container" style="margin-top:15px">
     <div class="row">
       <%= @friend_requests.each do |request| %>
         <div class="col-md-3">
-        <div class="card" style="width: 12rem;">
-        <%= image_tag "videos.png", alt:"videos" %>
-      <div class="card-body">
-        <h5 class="card-title">Prakash Kumar</h5>
-        <%= button_to("Confirm", {action: "create", :status => 0}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %>
-        <%= button_to("Reject", {action: "create", :status => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"}) %> 
-      </div>
-      </div>
-    </div>
-    <% end %>
+          <div class="card" style="width: 12rem;">
+            <%= image_tag "videos.png", alt:"videos" %>
+            <div class="card-body">
+              <h5 class="card-title"><%= get_friend_data(request.first_user_id).first_name%></h5>
+              <%= button_to("Confirm", {action: "update", :status => 0 , friend_id:  request.first_user_id}, {:method => 'put', class: "btn btn-primary btn-lg btn-block mt-3"}) %>
+              <%= button_to("Reject", {action: "update", :status => 1, friend_id:  request.first_user_id}, {:method => 'put', class: "btn btn-primary btn-lg btn-block mt-3"}) %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
     <div class="row">
-    <div class="col-md-3">
-      <div class="card" style="width: 12rem;">
-        <%= image_tag "videos.png", alt:"videos" , class: "card-img-top"%>
-        <div class="card-body">
-          <h5 class="card-title">Anirudh</h5>
-          <%= link_to "Add Friend", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
-          <%= link_to "Remove", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
+      <div class="col-md-3">
+        <div class="card" style="width: 12rem;">
+          <%= image_tag "videos.png", alt:"videos" , class: "card-img-top"%>
+          <div class="card-body">
+            <h5 class="card-title">Bhanu</h5>
+            <%= link_to "Add Friend", {action: "create", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3",  method: :post} %>
+            <%= link_to "Remove", {action: "update", :friend_id => 3, :status => 3 }, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card" style="width: 12rem;">
+          <%= image_tag "videos.png", alt:"videos", class: "card-img-top" %>
+          <div class="card-body">
+            <h5 class="card-title">Prakash</h5>
+            <%= link_to "Add Friend", {action: "create", :friend_id => 4}, {class: "btn btn-primary btn-lg btn-block mt-3",  method: :post} %>
+            <%= link_to "Remove", {action: "update", :friend_id => 3, :status => 3}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-    <div class="card" style="width: 12rem;">
-      <%= image_tag "videos.png", alt:"videos", class: "card-img-top" %>
-      <div class="card-body">
-        <h5 class="card-title">Atul</h5>
-        <%= link_to "Add Friend", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %>
-        <%= link_to "Remove", {action: "new", :friend_id => 1}, {class: "btn btn-primary btn-lg btn-block mt-3"} %> 
-      </div>
-    </div>
-    </div>
   </div>
-</div>
-
-
-
-
-
-   
