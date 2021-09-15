@@ -102,7 +102,7 @@
           <div class="news_feed_title">
             <%= image_tag "user.png", alt:"user" %>
             <div class="news_feed_title_content">
-              <%= content_tag(:p, "#{@current_user.first_name} #{@current_user.last_name}") %>
+              <p><%= User.find(post.user_id).first_name %></p>
               <span>12h . <i class="fas fa-globe-americas"></i></span>
             </div>
           </div>
@@ -210,7 +210,7 @@
             <li>
               <a href="#">
                 <%= image_tag "avatar1.png", alt:"user" %>
-                <span><%= "#{User.find(friend.first_user_id).first_name}" %></span>
+                <span><%= "#{friend_list(friend)}" %></span>
               </a>
             </li>
           <% end %>
@@ -239,59 +239,4 @@
       </div>
     </div>
   </div>
-  <script>
-    $("#1").hide()
-    
-    $("#xta").click(function(){
-    $("#1").toggle()
-    });
-    
-    function like_post_comment(event, element){
-      event.preventDefault();
-      event.stopPropagation();
-      var id = $(element).attr("id_value");
-      var type = $(element).attr("like_type");
-      var action = $(element).attr("action");
-      if (action == "like"){
-        $.ajax({
-        url: 'http://localhost:3000/likes/',
-        type: 'POST',
-        data: {"type" : type, "id" : id},
-        success: function(result) {
-        console.log(result);
-       
-        if (type == "Post"){
-         $("#post_like_icon").text(result["current_likes_count"]);
-         $("#post_like").attr("action" , "unlike");
-        }
-        else{
-         id_val = "[id_value=" + id + "]";
-        $("i").filter("[id='comment_like']").filter(id_val).attr("action" , "unlike");
-        $('span').filter("[id='comment_like_icon']").filter(id_val).text(result["current_likes_count"]);
-        }  
-        },
-        error: function(error){console.log(error);}
-        });
-        }
-      else if (action == "unlike"){
-      $.ajax({
-      url: 'http://localhost:3000/likes/' + id,
-      type: 'DELETE',
-      data: {"type" : type, "id" : id},
-      success: function(result) {
-      console.log(result);
-       if (type == "Post"){
-        $("#post_like_icon").text(result["current_likes_count"]);
-        $("#post_like").attr("action" , "like");
-       }
-      else{
-      id_val = "[id_value=" + id + "]";
-      $("i").filter("[id='comment_like']").filter(id_val).attr("action" , "like");
-        $('span').filter("[id='comment_like_icon']").filter(id_val).text(result["current_likes_count"]);
-      }  
-       },
-      error: function(error){console.log(error);}
-      });
-      }
-    }
-  </script>
+  <%= javascript_pack_tag 'users', 'data-turbolinks-track': 'reload' %>
