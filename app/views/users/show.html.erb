@@ -150,6 +150,7 @@
                 <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
                   <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(event, this)" like_type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id, likeable_type: 'Comment').eql?(nil) ? "like" : "unlike" %> ></i>
+                  <span id="comment_like_icon" id_value=<%= comment.id %> ><%= comment.likes.count %></span>
                 </div>
               <% end %>
             <% end %>
@@ -205,13 +206,13 @@
           </div>
         </div>
         <ul>
-        <% @friends.each do |friend| %>
-          <li>
-            <a href="#">
-              <%= image_tag "avatar1.png", alt:"user" %>
-              <span><%= "#{User.find(friend.first_user_id).first_name}" %></span>
-            </a>
-          </li>
+          <% @friends.each do |friend| %>
+            <li>
+              <a href="#">
+                <%= image_tag "avatar1.png", alt:"user" %>
+                <span><%= "#{User.find(friend.first_user_id).first_name}" %></span>
+              </a>
+            </li>
           <% end %>
         </ul>
       </div>
@@ -244,7 +245,7 @@
     $("#xta").click(function(){
     $("#1").toggle()
     });
-        
+    
     function like_post_comment(event, element){
       event.preventDefault();
       event.stopPropagation();
@@ -256,10 +257,18 @@
         url: 'http://localhost:3000/likes/',
         type: 'POST',
         data: {"type" : type, "id" : id},
-        success: function(result) { 
+        success: function(result) {
         console.log(result);
-        $("#post_like_icon").text(result["current_likes_count"]);
-        $("#post_like").attr("action" , "unlike");
+       
+        if (type == "Post"){
+         $("#post_like_icon").text(result["current_likes_count"]);
+         $("#post_like").attr("action" , "unlike");
+        }
+        else{
+         id_val = "[id_value=" + id + "]";
+        $("i").filter("[id='comment_like']").filter(id_val).attr("action" , "unlike");
+        $('span').filter("[id='comment_like_icon']").filter(id_val).text(result["current_likes_count"]);
+        }  
         },
         error: function(error){console.log(error);}
         });
@@ -269,9 +278,17 @@
       url: 'http://localhost:3000/likes/' + id,
       type: 'DELETE',
       data: {"type" : type, "id" : id},
-      success: function(result) { 
-       $("#post_like_icon").text(result["current_likes_count"]);
-       $("#post_like").attr("action" , "like");
+      success: function(result) {
+      console.log(result);
+       if (type == "Post"){
+        $("#post_like_icon").text(result["current_likes_count"]);
+        $("#post_like").attr("action" , "like");
+       }
+      else{
+      id_val = "[id_value=" + id + "]";
+      $("i").filter("[id='comment_like']").filter(id_val).attr("action" , "like");
+        $('span').filter("[id='comment_like_icon']").filter(id_val).text(result["current_likes_count"]);
+      }  
        },
       error: function(error){console.log(error);}
       });
