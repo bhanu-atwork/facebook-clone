@@ -115,7 +115,7 @@
           <div class="likes_area">
             <div class="emojis">
               <%= image_tag "emoji_like.png", alt:"like" %>
-              <%= content_tag(:span, "#{ post.likes.count }", id: "post_like_icon") %>
+              <%= content_tag(:span, "#{ post.likes.count }", id: "post_like_icon", id_value: post.id) %>
             </div>
             <div class="comment_counts">
               <%= content_tag(:span, "#{ post.comments.count }") %>
@@ -130,24 +130,21 @@
                 <i class="far fa-thumbs-up" type="button" id="post_like" onclick="like_post_comment(event, this)" like_type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: @current_user.id, likeable_id: post.id, likeable_type: 'Post').eql?(nil) ? "like" : "unlike" %>"></i>
               </div>
             </div>
-            <div class="likes_buttons_links" type="button" id="xta">
+            <div class="likes_buttons_links" type="button" id="comment-button" id_value=<%= post.id %> onclick="show_hide_comment(this)">
               <i class="far fa-comment-alt"></i>
             </div>
             <div class="likes_buttons_links">
               <i class="fas fa-share"></i>
             </div>
           </div>
-          <div id=1>
+          <div id="comment-block" id_value=<%= post.id%>>
             <%= form_with(url: comments_path(:post_id => post.id),  id: "new_comment", class: "comment_form") do |f| %>
-              <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "Enter a comment" ) %>
-              <div class="likes_buttons_links comment_like_button" type="button">
-                <i class="far fa-thumbs-up"> </i>
-              </div>
+              <%= text_field("", :comment_body , class: "comment_text" , placeholder: "Enter a comment" ) %>
+              <%= f.submit "Click to post comment", class:"comment_text" %>
             <% end %>
-            <%= link_to "Click to post comment", "#" , class:"comment_post_link", :onclick=>"$('#new_comment').submit()" %>
             <% post.comments.each do |comment| %>
               <%= form_with(url: "#", class: "comment_form") do |f| %>
-                <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
+                <%= text_field("", :comment_body , class: "comment_text" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
                   <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(event, this)" like_type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id, likeable_type: 'Comment').eql?(nil) ? "like" : "unlike" %> ></i>
                   <span id="comment_like_icon" id_value=<%= comment.id %> ><%= comment.likes.count %></span>
