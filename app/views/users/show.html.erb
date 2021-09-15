@@ -246,19 +246,21 @@
     });
         
     function like_post_comment(event, element){
+      event.preventDefault();
+      event.stopPropagation();
       var id = $(element).attr("id_value");
       var type = $(element).attr("like_type");
       var action = $(element).attr("action");
-      var post_like_count = $("#post_like_icon").text()
-      console.log(id)
-      console.log(action)
-      console.log(post_like_count)
       if (action == "like"){
         $.ajax({
         url: 'http://localhost:3000/likes/',
         type: 'POST',
         data: {"type" : type, "id" : id},
-        success: function(result) { $("#post_like_icon").text(post_like_count+1);},
+        success: function(result) { 
+        console.log(result);
+        $("#post_like_icon").text(result["current_likes_count"]);
+        $("#post_like").attr("action" , "unlike");
+        },
         error: function(error){console.log(error);}
         });
         }
@@ -267,11 +269,12 @@
       url: 'http://localhost:3000/likes/' + id,
       type: 'DELETE',
       data: {"type" : type, "id" : id},
-      success: function(result) { $("#post_like_icon").text(post_like_count-1)},
+      success: function(result) { 
+       $("#post_like_icon").text(result["current_likes_count"]);
+       $("#post_like").attr("action" , "like");
+       },
       error: function(error){console.log(error);}
       });
       }
-      event.preventDefault();
-      event.stopPropagation();
     }
   </script>
