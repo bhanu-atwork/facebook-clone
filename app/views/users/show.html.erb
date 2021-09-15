@@ -127,7 +127,7 @@
           <div class="likes_buttons">
             <div class="likes_buttons_links">
               <div class="likes_buttons_links comment_like_button" type="button">
-                <i class="far fa-thumbs-up" id="post_like" onclick="like_post(this)" type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: post.user_id).eql?(nil) ? "like" : "unlike" %>"></i>
+                <i class="far fa-thumbs-up" id="post_like" onclick="like_post_comment(this)" type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: @current_user.id, likeable_id: post.id, likeable_type: 'Post').eql?(nil) ? "like" : "unlike" %>"></i>
               </div>
             </div>
             <div class="likes_buttons_links" type="button" id="xta">
@@ -149,7 +149,7 @@
               <%= form_with(url: "#", class: "comment_form") do |f| %>
                 <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
-                  <i class="far fa-thumbs-up" id="comment_like" data-comment-id=<%= comment.id %> onclick="like_comment(this)" ></i>
+                  <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(this)" type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id).eql?(nil) ? "like" : "unlike" %> ></i>
                 </div>
               <% end %>
             <% end %>
@@ -266,18 +266,8 @@
     $("#xta").click(function(){
     $("#1").toggle()
     });
-    
-    function like_comment(element){
-    var id = $(element).attr("data-comment-id");
-      $.post('http://localhost:3000/Comment/' + id + '/like',
-        function(returnedData){
-            console.log(returnedData);
-      }).fail(function(){
-            console.log("error");
-      });
-    };
-    
-    function like_post(element){
+        
+    function like_post_comment(element){
     var id = $(element).attr("id_value");
     var type = $(element).attr("type");
     var action = $(element).attr("action");
@@ -303,5 +293,6 @@
     error: function(error){console.log(error);}
     });
     }
+    return false;
     }
   </script>
