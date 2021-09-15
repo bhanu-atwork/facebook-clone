@@ -115,10 +115,10 @@
           <div class="likes_area">
             <div class="emojis">
               <%= image_tag "emoji_like.png", alt:"like" %>
-              <%= content_tag(:span, "#{count_post_likes(post.id)}", id: "post_like_icon") %>
+              <%= content_tag(:span, "#{ post.likes.count }", id: "post_like_icon") %>
             </div>
             <div class="comment_counts">
-              <%= content_tag(:span, "#{count_post_comments(post.id)}") %>
+              <%= content_tag(:span, "#{ post.comments.count }") %>
             </div>
           </div>
           <div class="divider">
@@ -145,7 +145,7 @@
               </div>
             <% end %>
             <%= link_to "Click to post comment", "#" , class:"comment_post_link", :onclick=>"$('#new_comment').submit()" %>
-            <%= get_post_comments(post.id).each do |comment| %>
+            <%= post.comments.each do |comment| %>
               <%= form_with(url: "#", class: "comment_form") do |f| %>
                 <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
