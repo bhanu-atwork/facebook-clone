@@ -97,7 +97,7 @@
         </div>
       </div>
       <!-- news feed -->
-      <%= @current_users_posts.each do |post| %>
+      <% @current_users_posts.each do |post| %>
         <div class="news_feed">
           <div class="news_feed_title">
             <%= image_tag "user.png", alt:"user" %>
@@ -127,7 +127,7 @@
           <div class="likes_buttons">
             <div class="likes_buttons_links">
               <div class="likes_buttons_links comment_like_button" type="button">
-                <i class="far fa-thumbs-up" id="post_like" onclick="like_post_comment(this)" type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: @current_user.id, likeable_id: post.id, likeable_type: 'Post').eql?(nil) ? "like" : "unlike" %>"></i>
+                <i class="far fa-thumbs-up" type="button" id="post_like" onclick="like_post_comment(event, this)" like_type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: @current_user.id, likeable_id: post.id, likeable_type: 'Post').eql?(nil) ? "like" : "unlike" %>"></i>
               </div>
             </div>
             <div class="likes_buttons_links" type="button" id="xta">
@@ -145,11 +145,11 @@
               </div>
             <% end %>
             <%= link_to "Click to post comment", "#" , class:"comment_post_link", :onclick=>"$('#new_comment').submit()" %>
-            <%= post.comments.each do |comment| %>
+            <% post.comments.each do |comment| %>
               <%= form_with(url: "#", class: "comment_form") do |f| %>
                 <%= text_field("", :comment_body , class: "comment_buttons" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
-                  <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(this)" type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id).eql?(nil) ? "like" : "unlike" %> ></i>
+                  <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(event, this)" like_type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id, likeable_type: 'Comment').eql?(nil) ? "like" : "unlike" %> ></i>
                 </div>
               <% end %>
             <% end %>
@@ -205,36 +205,14 @@
           </div>
         </div>
         <ul>
+        <% @friends.each do |friend| %>
           <li>
             <a href="#">
               <%= image_tag "avatar1.png", alt:"user" %>
-              <span>Virat</span>
+              <span><%= "#{User.find(friend.first_user_id).first_name}" %></span>
             </a>
           </li>
-          <li>
-            <a href="#">
-              <%=image_tag "avatar2.png", alt:"user" %>
-              <span>Dhoni</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <%=image_tag "avatar1.png", alt:"user" %>
-              <span>Rohit</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <%=image_tag "avatar3.png", alt:"user" %>
-              <span>Bumrah</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <%=image_tag "avatar2.png", alt:"user" %>
-              <span>Shami</span>
-            </a>
-          </li>
+          <% end %>
         </ul>
       </div>
     </div>
@@ -267,32 +245,33 @@
     $("#1").toggle()
     });
         
-    function like_post_comment(element){
-    var id = $(element).attr("id_value");
-    var type = $(element).attr("type");
-    var action = $(element).attr("action");
-    var post_like_count = $("#post_like_icon").text()
-    console.log(id)
-    console.log(action)
-    console.log(post_like_count)
-    if (action == "like"){
+    function like_post_comment(event, element){
+      var id = $(element).attr("id_value");
+      var type = $(element).attr("like_type");
+      var action = $(element).attr("action");
+      var post_like_count = $("#post_like_icon").text()
+      console.log(id)
+      console.log(action)
+      console.log(post_like_count)
+      if (action == "like"){
+        $.ajax({
+        url: 'http://localhost:3000/likes/',
+        type: 'POST',
+        data: {"type" : type, "id" : id},
+        success: function(result) { $("#post_like_icon").text(post_like_count+1);},
+        error: function(error){console.log(error);}
+        });
+        }
+      else if (action == "unlike"){
       $.ajax({
-      url: 'http://localhost:3000/likes/',
-      type: 'POST',
+      url: 'http://localhost:3000/likes/' + id,
+      type: 'DELETE',
       data: {"type" : type, "id" : id},
-      success: function(result) { $("#post_like_icon").text(post_like_count+1)},
+      success: function(result) { $("#post_like_icon").text(post_like_count-1)},
       error: function(error){console.log(error);}
       });
       }
-    else if (action == "unlike"){
-    $.ajax({
-    url: 'http://localhost:3000/likes/' + id,
-    type: 'DELETE',
-    data: {"type" : type, "id" : id},
-    success: function(result) { $("#post_like_icon").text(post_like_count-1)},
-    error: function(error){console.log(error);}
-    });
-    }
-    return false;
+      event.preventDefault();
+      event.stopPropagation();
     }
   </script>
