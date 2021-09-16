@@ -1,2 +1,239 @@
-<h1>Profile</h1>
-<%= link_to "Sign out", session_path, method:"delete" %>
+<div class="content">
+  <div class="content_left">
+    <ul>
+      <li>
+        <a href="#">
+          <%= image_tag "profile.png", alt:"profile" %>
+          <%= content_tag(:span, "#{@current_user.first_name}") %>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "covid.png", alt:"covid" %>
+          <span>COVID-19 Information Center</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "friends.png", alt:"friends" %>
+          <span>Friends</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "groups.png", alt:"groups" %> <span>Groups</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "marketplace.png", alt:"marketplace" %>
+          <span>Marketplace</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "videos.png", alt:"videos" %> <span>Videos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "events.png", alt:"events" %> <span>Events</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "memories.png", alt:"memories" %>
+          <span>Memories</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <%= image_tag "saved.png", alt:"saved" %> <span>Saved</span>
+        </a>
+      </li>
+      <li>
+        <i class="fas fa-arrow-down"></i>
+        <span class="see_more">See More</span>
+      </li>
+      <div class="border"></div>
+      <h3 class="shortcut_title">Your shortcuts</h3>
+      <div class="shortcuts_wrapper">
+        <a href="#">
+          <%= image_tag "shortcuts.jpg", alt:"shortcuts" %>
+          <span>Ethical Hacking Society</span>
+        </a>
+      </div>
+    </ul>
+  </div>
+  <div class="content_center">
+    <div class="stories">
+      <%= image_tag "https://picsum.photos/id/137/110/200", alt:"" %>
+      <%= image_tag "https://picsum.photos/id/247/110/200", alt:"" %>
+      <%= image_tag "https://picsum.photos/id/522/110/200", alt:"" %>
+      <%= image_tag "https://picsum.photos/id/231/110/200", alt:"" %>
+      <%= image_tag "https://picsum.photos/id/537/110/200", alt:"" %>
+      <%= image_tag "https://picsum.photos/id/237/110/200", alt:"" %>
+    </div>
+    <div class="media_container">
+      <div class="share">
+        <div class="share_upSide">
+          <%= image_tag "profile.png", alt:"profile" %>
+          <%= text_field("", :body, placeholder:"What's on your mind, #{@current_user.first_name}?") %>
+        </div>
+        <hr />
+        <div class="share_downSide">
+          <div class="share_downSide_link">
+            <i class="fas fa-video live-video-icon"></i>
+            <span>Live Video</span>
+          </div>
+          <div class="share_downSide_link type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"">
+            <i class="fas fa-photo-video photo-video-icon"></i>
+            <span>Photo</span>
+          </div>
+          <div class="share_downSide_link">
+            <i class="far fa-grin-alt feeling-icon"></i>
+            <span>Feeling/Activity</span>
+          </div>
+        </div>
+      </div>
+      <!-- news feed -->
+      <% @current_users_posts.each do |post| %>
+        <div class="news_feed">
+          <div class="news_feed_title">
+            <%= image_tag "user.png", alt:"user" %>
+            <div class="news_feed_title_content">
+              <p><%= User.find(post.user_id).first_name %></p>
+              <span>12h . <i class="fas fa-globe-americas"></i></span>
+            </div>
+          </div>
+          <div class="news_feed_description">
+            <%= content_tag(:p, "#{post.body}", class: "news_feed_subtitle") %>
+            <% if post.image.attached? %>
+              <%= image_tag post.image %>
+            <% end %>
+          </div>
+          <div class="likes_area">
+            <div class="emojis">
+              <%= image_tag "emoji_like.png", alt:"like" %>
+              <%= content_tag(:span, "#{ post.likes.count }", id: "post_like_icon", id_value: post.id) %>
+            </div>
+            <div class="comment_counts">
+              <%= content_tag(:span, "#{ post.comments.count }") %>
+            </div>
+          </div>
+          <div class="divider">
+            <hr />
+          </div>
+          <div class="likes_buttons">
+            <div class="likes_buttons_links">
+              <div class="likes_buttons_links comment_like_button" type="button">
+                <i class="far fa-thumbs-up" type="button" id="post_like" onclick="like_post_comment(event, this)" like_type="Post" id_value=<%= post.id %> action="<%= post.likes.find_by(user_id: @current_user.id, likeable_id: post.id, likeable_type: 'Post').eql?(nil) ? "like" : "unlike" %>"></i>
+              </div>
+            </div>
+            <div class="likes_buttons_links" type="button" id="comment-button" id_value=<%= post.id %> onclick="show_hide_comment(this)">
+              <i class="far fa-comment-alt"></i>
+            </div>
+            <div class="likes_buttons_links">
+              <i class="fas fa-share"></i>
+            </div>
+          </div>
+          <div id="comment-block" id_value=<%= post.id%>>
+            <%= form_with(url: comments_path(:post_id => post.id),  id: "new_comment", class: "comment_form") do |f| %>
+              <%= text_field("", :body , class: "comment_text" , placeholder: "Enter a comment" ) %>
+              <%= f.submit "Click to post comment", class:"comment_text" %>
+            <% end %>
+            <% post.comments.each do |comment| %>
+              <%= form_with(url: "#", class: "comment_form") do |f| %>
+                <%= text_field("", :body , class: "comment_text" , placeholder: "#{comment.body}", :readonly => true) %>
+                <div class="likes_buttons_links comment_like_button" type="button">
+                  <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(event, this)" like_type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id, likeable_type: 'Comment').eql?(nil) ? "like" : "unlike" %> ></i>
+                  <span id="comment_like_icon" id_value=<%= comment.id %> ><%= comment.likes.count %></span>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="content_right">
+    <div class="content_right_inner">
+      <div class="your_pages">
+        <h3>Your Pages</h3>
+        <i class="fas fa-ellipsis-h"></i>
+      </div>
+      <ul>
+        <li>
+          <a href="#">
+            <%= image_tag "codersbite.png", class:"your_page_logo",  alt:"codersbite" %>
+            <span>Codersbite</span>
+          </a>
+        </li>
+        <li class="content_right_small_text">
+          <a href="#">
+            <i class="fas fa-bell"></i>
+            <span>5 Notifications</span>
+          </a>
+        </li>
+        <li class="content_right_small_text">
+          <a href="#">
+            <i class="fas fa-bullhorn"></i>
+            <span>Create Promotion</span>
+          </a>
+        </li>
+      </ul>
+      <div class="content_right_divider"></div>
+      <div class="birthdays">
+        <h3>Birthdays</h3>
+      </div>
+      <ul>
+        <li>
+          <a href="#">
+            <image_tag "gift-box.png", alt:"gift-box" %>
+              <span>Amit's birthday is today</span>
+            </a>
+          </li>
+        </ul>
+        <div class="content_right_divider"></div>
+        <div class="contacts">
+          <h3>Contacts</h3>
+          <div class="contact_icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-ellipsis-h"></i>
+          </div>
+        </div>
+        <ul>
+          <% @friends.each do |friend| %>
+            <li>
+              <a href="#">
+                <%= image_tag "avatar1.png", alt:"user" %>
+                <span><%= "#{friend_name(friend)}" %></span>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content">
+        <div class="modal-header create-post">
+          <h5 class="modal-title post-title" id="exampleModalLabel">Create Post</h5>
+        </div>
+        <%= form_with url: posts_path do |f| %>
+          <div class="modal-body create-post">
+            <%= text_field("", :body, placeholder:"What's on your mind, #{@current_user.first_name}?", class: "btn-lg btn-block mt-3 post-text") %>
+            <div class="container photo-box">
+              <p class="add-photo">Add Photos</p>
+              <%= f.file_field :image %>
+            </div>
+          </div>
+          <div class="modal-footer create-post">
+            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Post</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <%= javascript_pack_tag 'users', 'data-turbolinks-track': 'reload' %>

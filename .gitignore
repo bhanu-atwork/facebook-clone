@@ -6,3 +6,6 @@ tmp/
 /spec/tmp/*
 node_modules/
 public/
+.DS_Store
+storage/
+.byebug_history
