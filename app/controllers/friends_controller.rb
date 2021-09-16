@@ -12,7 +12,7 @@ class FriendsController < ApplicationController
 
   def update
     @friend = Friend.find_by(first_user_id: params["friend_id"], second_user_id: @current_user.id)
-    flash[:errors] = @friend_status.errors.full_messages  unless @friend.update(status: params["status"])
+    flash[:errors] = @friend.errors.full_messages  unless @friend.nil? && @friend.update(status: params["status"].to_i)
     redirect_to friend_path(@current_user.id)
   end
 end

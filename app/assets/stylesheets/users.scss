@@ -49,12 +49,12 @@ body {
 }
 
 .input-field {
-  width: 50%;
+  width: 60%;
   padding: 12px 0 12px 35px;
   background: #3a3b3c;
   border: none;
   border-radius: 25px;
-  font-size: 15px;
+  font-size: 10px;
   color: #a8abaf;
 }
 
@@ -669,4 +669,27 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: white;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+ color:     white;
+ opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+ color:     white;
+ opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color:     white;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+ color:    white;
+}
+
+::placeholder { /* Most modern browsers support this now. */
+ color:     white;
+ font-size: 15px;
 }

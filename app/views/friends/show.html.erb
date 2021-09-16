@@ -54,7 +54,7 @@
           <div class="card" style="width: 12rem;">
             <%= image_tag "videos.png", alt:"videos" %>
             <div class="card-body">
-              <h5 class="card-title"><%= get_friend_data(request.first_user_id).first_name%></h5>
+              <h5 class="card-title"><%= User.find(request.first_user_id).first_name%></h5>
               <%= button_to("Confirm", {action: "update", :status => 0 , friend_id:  request.first_user_id}, {:method => 'put', class: "btn btn-primary btn-lg btn-block mt-3"}) %>
               <%= button_to("Reject", {action: "update", :status => 1, friend_id:  request.first_user_id}, {:method => 'put', class: "btn btn-primary btn-lg btn-block mt-3"}) %>
             </div>

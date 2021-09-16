@@ -139,12 +139,12 @@
           </div>
           <div id="comment-block" id_value=<%= post.id%>>
             <%= form_with(url: comments_path(:post_id => post.id),  id: "new_comment", class: "comment_form") do |f| %>
-              <%= text_field("", :comment_body , class: "comment_text" , placeholder: "Enter a comment" ) %>
+              <%= text_field("", :body , class: "comment_text" , placeholder: "Enter a comment" ) %>
               <%= f.submit "Click to post comment", class:"comment_text" %>
             <% end %>
             <% post.comments.each do |comment| %>
               <%= form_with(url: "#", class: "comment_form") do |f| %>
-                <%= text_field("", :comment_body , class: "comment_text" , placeholder: "#{comment.body}", :readonly => true) %>
+                <%= text_field("", :body , class: "comment_text" , placeholder: "#{comment.body}", :readonly => true) %>
                 <div class="likes_buttons_links comment_like_button" type="button">
                   <i class="far fa-thumbs-up" id="comment_like" onclick="like_post_comment(event, this)" like_type="Comment" id_value=<%= comment.id %> action=<%= comment.likes.find_by(user_id: @current_user.id, likeable_id: comment.id, likeable_type: 'Comment').eql?(nil) ? "like" : "unlike" %> ></i>
                   <span id="comment_like_icon" id_value=<%= comment.id %> ><%= comment.likes.count %></span>
@@ -207,7 +207,7 @@
             <li>
               <a href="#">
                 <%= image_tag "avatar1.png", alt:"user" %>
-                <span><%= "#{friend_list(friend)}" %></span>
+                <span><%= "#{friend_name(friend)}" %></span>
               </a>
             </li>
           <% end %>

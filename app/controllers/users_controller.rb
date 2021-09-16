@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     
-  helper_method :friend_list
+  helper_method :friend_name
   def show
     @current_users_posts = [current_user.posts]
     @friends = Friend.where(second_user_id: @current_user.id , status: 0).or(
@@ -14,8 +14,8 @@ class UsersController < ApplicationController
     @current_users_posts = @current_users_posts.flatten
   end
 
-  def friend_list(friend)
-    if friend.first_user_id = @current_user.id
+  def friend_name(friend)
+    if friend.first_user_id == @current_user.id
       User.find(friend.second_user_id).first_name
     else
       User.find(friend.first_user_id).first_name
