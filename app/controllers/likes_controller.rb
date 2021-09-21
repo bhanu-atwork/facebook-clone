@@ -25,7 +25,6 @@ class LikesController < ApplicationController
       @like.destroy
     end
     payload["current_likes_count"] = Like.where(likeable_type: params["type"], likeable_id: params["id"]).count
-    
     render json: payload, status: status_code
   end
 end
