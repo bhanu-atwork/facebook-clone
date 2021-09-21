@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
 
   def create
+    debugger
     @like = @current_user.likes.build(likeable_type: params["type"], likeable_id: params["id"])
     payload = {"error": nil}
     status_code = :ok
@@ -24,6 +25,7 @@ class LikesController < ApplicationController
       @like.destroy
     end
     payload["current_likes_count"] = Like.where(likeable_type: params["type"], likeable_id: params["id"]).count
+    
     render json: payload, status: status_code
   end
 end
